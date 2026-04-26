@@ -16,12 +16,7 @@
     passed: [],
     remaining: MAX_INVEST,
     isAnimating: false,
-    isDragging: false,
-    startX: 0,
-    startY: 0,
-    currentX: 0,
-    cardEl: null,
-    cardFlipped: false
+    cardEl: null
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -151,10 +146,7 @@
     const card = state.deck[state.currentIndex];
     const area = $('.card-area');
     const old = area.querySelector('.game-card');
-    if (old) {
-      if (old._cleanupMouse) old._cleanupMouse();
-      old.remove();
-    }
+    if (old) old.remove();
 
     const el = document.createElement('div');
     el.className = 'game-card card-enter';
@@ -175,28 +167,37 @@
     bindSwipe(el);
   }
 
-  // ========== 滑动手势 ==========
+  // ========== 滑动手势（全局单例管理） ==========
+  let _swipeCleanup = null;
+
   function bindSwipe(el) {
-    let directionLocked = null; // 'horizontal' or 'vertical'
+    // 先清理上一张卡牌的事件
+    if (_swipeCleanup) {
+      _swipeCleanup();
+      _swipeCleanup = null;
+    }
+
+    let directionLocked = null;
+    let dragging = false;
+    let startX = 0, startY = 0, currentX = 0;
 
     const onStart = (e) => {
       if (state.isAnimating) return;
-      state.isDragging = true;
+      dragging = true;
       directionLocked = null;
       const point = e.touches ? e.touches[0] : e;
-      state.startX = point.clientX;
-      state.startY = point.clientY;
-      state.currentX = 0;
+      startX = point.clientX;
+      startY = point.clientY;
+      currentX = 0;
       el.style.transition = 'none';
     };
 
     const onMove = (e) => {
-      if (!state.isDragging || state.isAnimating) return;
+      if (!dragging || state.isAnimating) return;
       const point = e.touches ? e.touches[0] : e;
-      const dx = point.clientX - state.startX;
-      const dy = point.clientY - state.startY;
+      const dx = point.clientX - startX;
+      const dy = point.clientY - startY;
 
-      // 锁定方向：首次移动超过8px时判定
       if (!directionLocked) {
         if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
           directionLocked = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
@@ -204,41 +205,33 @@
         return;
       }
 
-      // 垂直滑动 → 不拦截，让文字区域自然滚动
       if (directionLocked === 'vertical') return;
 
-      // 水平滑动 → 拖拽卡牌
       e.preventDefault();
-      state.currentX = dx;
+      currentX = dx;
 
-      // 锁定后禁止内部滚动
       const riddle = el.querySelector('.card-riddle');
       if (riddle) riddle.style.overflowY = 'hidden';
 
-      // 3D透视倾斜：沿Y轴旋转，像轮盘一样
       const rotateY = Math.min(Math.max(dx * 0.08, -25), 25);
-
       el.style.transform = `translateX(${dx}px) perspective(800px) rotateY(${rotateY}deg)`;
     };
 
     const onEnd = () => {
-      if (!state.isDragging || state.isAnimating) return;
-      state.isDragging = false;
+      if (!dragging || state.isAnimating) return;
+      dragging = false;
 
-      // 恢复内部滚动
       const riddle = el.querySelector('.card-riddle');
       if (riddle) riddle.style.overflowY = '';
 
-      // 如果是垂直滚动或未锁定方向，不处理
       if (directionLocked !== 'horizontal') {
         directionLocked = null;
         return;
       }
       directionLocked = null;
 
-      if (Math.abs(state.currentX) > SWIPE_THRESHOLD) {
-        const isInvest = state.currentX > 0;
-        completeSwipe(el, isInvest);
+      if (Math.abs(currentX) > SWIPE_THRESHOLD) {
+        completeSwipe(el, currentX > 0);
       } else {
         el.style.transition = 'transform 0.3s ease';
         el.style.transform = '';
@@ -252,24 +245,29 @@
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onEnd);
 
-    el._cleanupMouse = () => {
+    // 保存清理函数
+    _swipeCleanup = () => {
+      el.removeEventListener('touchstart', onStart);
+      el.removeEventListener('touchmove', onMove);
+      el.removeEventListener('touchend', onEnd);
+      el.removeEventListener('mousedown', onStart);
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onEnd);
+      dragging = false;
     };
   }
 
   function completeSwipe(el, isInvest) {
     if (state.isAnimating) return;
     state.isAnimating = true;
-    state.isDragging = false;
-    const card = state.deck[state.currentIndex];
 
-    // 立即清理事件防止重复触发
-    if (el._cleanupMouse) {
-      el._cleanupMouse();
-      el._cleanupMouse = null;
+    // 立即清理事件
+    if (_swipeCleanup) {
+      _swipeCleanup();
+      _swipeCleanup = null;
     }
 
+    const card = state.deck[state.currentIndex];
     el.style.transition = '';
     el.classList.add(isInvest ? 'fly-right' : 'fly-left');
 
