@@ -1,0 +1,230 @@
+巴菲特投资案例深度分析：买入背景与市场评价
+1. 成功案例
+1.1 苹果 (Apple)
+背景： 
+2016年，该公司正处于”走下神坛”的质疑声中，销量出现首次下滑，股价从高点下跌约30%。媒体报道智能手机市场饱和，竞争激烈，质疑该公司创新乏力。
+
+优点： - 极高的现金储备（逾2000亿美元） - 稳健的财务管控能力 - 生态系统用户粘性极强-极低的估值（市盈率约10倍）[7]
+缺点： -硬件销量见顶 - 面临其他公司严峻挑战 - 被华尔街视为周期性硬件公司
+最终投资结果：持有至今（2024年起显著减持）。初始成本约20美元/股，至2024年最高涨幅约9倍，账面获利超1000亿美元[9][22]。
+
+1.2 可口可乐 (Coca-Cola)
+背景：1988年，受1987年”黑色星期一”股灾影响，公司股价较前期高点下跌25%。公司曾更改用了99年的传统配方，引发消费者的滔天怒火，之后改回原配方。市场对其管理层能力产生质疑。
+优点： - 全球品牌护城河 - 强大的定价权 - 高ROE（约31%）及管理层积极的股票回购计划[1][4]
+缺点： - 15倍PE和5倍PB在当时被认为过贵 - 软饮料市场被视为增长乏力的成熟行业[1][20]
+最终投资结果：持有至今（超过36年）。初始投资10.2亿美元，截至2025年总回报率（含分红）超过3000%[2][23]。
+
+1.3 比亚迪 (BYD)
+背景：2008年金融危机期间，全球股市暴跌，汽车行业哀鸿遍野。其作为中国本土品牌，被市场普遍视为”低端制造商”，媒体普遍质疑这家电池厂跨界造电动汽车的可行性。
+
+优点： - 创始人的工程师精神 - 电池技术的领先地位 - 电动车产业的长期前景[3][24]
+缺点： - 汽车行业竞争激烈 - 制造经验不足-品牌知名度低-新能源汽车被视为遥不可及的概念
+最终投资结果：2022年开始减持。初始投资2.3亿美元（8港元/股），最高增值至约90亿美元，回报率约40倍[5][24]。
+
+1.4 中国石油 (PetroChina)
+背景： 2003年，国际油价低迷，市场对传统能源股缺乏兴趣。作为中国公司市值仅350亿美元，市场普遍担忧其油田开发进入末期、成本高企[44][45]。
+优点： - 极低的估值（3倍PE） - 高股息率（约5%） - 中国经济增长对能源的强劲需求[45][47]
+缺点： - 油田老化，开发进入末期 -成本高 - 油价波动风险[44][46]
+最终投资结果：2007年清仓。投入4.88亿美元，收回40亿美元，5年获利约8倍[45][47]。
+
+1.5 美国运通 (American Express)
+背景：1963年底，公司卷入“色拉油丑闻”，仓库抵押的色拉油被发现99%装的都是海水，涉嫌欺诈面临巨额索赔，股价从62美元暴跌至35美元。市场担忧公司可能破产[26][30]。
+优点： - 旅行支票和信用卡的垄断地位 - 品牌声誉在消费者端并未受损[26][35]
+缺点： - 面临法律诉讼的不确定性 - 潜在的破产风险[30][35]
+最终投资结果：持有至今。1964年投入1300万美元，30年后增值100倍，目前仍是伯克希尔核心持仓[26][35]。
+
+1.6 GEICO保险
+背景：1976年，因承保定价错误和通胀飙升濒临破产，面临监管机构接管的危机，被市场认为是一家”正在死去的公司”[41][47]。
+优点： - 直销模式带来的极低运营成本 - 低成本护城河-商业模式在行业内具有颠覆性优势
+
+缺点： - 财务状况极度恶化 - 濒临破产[41][47]
+最终投资结果：1996年完成全资收购。1976年的抄底投资成为伯克希尔保险帝国的基石[47]。
+
+1.7 喜诗糖果 (See’s Candies)
+背景： 1972年，继承人对公司经营的糖果生意缺乏兴趣，以3000万美元的价格挂牌出售。当时正值美国通胀抬头，消费品成本上升。公司账面净资产只有约800万美元，年净利润约200万美元。
+
+优点： - 品牌忠诚度极高，拥有极强的定价权，无需大量资本投入即可实现利润增长
+
+缺点： - 收购价格是账面价值的3倍偏高 - 地域性太强（局限在加州）-销售严重依赖节假日
+最终投资结果：持有至今。截至2011年累计贡献税前利润16.5亿美元，回报率超8000%[32][33]。 
+
+1.8 房地美 (Freddie Mac)
+背景：1988年，新闻报道多担忧房地产市场降温及储蓄贷款危机，金融股整体遭到市场抛售。公司ROE高达23%且PE仅8倍，市场担忧其利率波动风险及政府担保政策变化[55][63]。
+优点： - 政府支持背景 - 抵押贷款市场的垄断地位 - 极高的资本回报率[55][62]
+缺点： 市场存在周期性违约风险- 利率波动风险 - 对政府担保政策变化的担忧[55][63]
+最终投资结果：2000年基本清仓。巴菲特因察觉管理层过度追求短期利润和会计操纵风险而果断退出，成功避开后来的次贷危机[55][56]。
+
+1.9 富国银行 (Wells Fargo)
+背景：1989-1990年美国西海岸房地产泡沫破裂，银行业陷入危机，该公司股价在半年内缩水三分之一，因持有大量商业地产贷款被市场认为即将破产。
+优点： - 管理层极其优秀 - 极高的成本控制能力 - 专注加州的区域垄断优势[54][57]
+缺点： - 房地产贷款坏账风险 - 市场普遍看空银行股[52][59]
+最终投资结果：持有33年，于2022年一季度清仓。持股市值曾达320亿美元，后因虚假账户丑闻导致巴菲特失去信心退出[51][54]。
+
+1.10 穆迪 (Moody’s)
+背景：2000年公司从邓白氏公司分拆上市，正值互联网泡沫末期，市场对信用评级行业的周期性和监管压力存在担忧[53][64]。
+优点： - 评级行业的双寡头垄断 - 极高的利润率 - 轻资产模式[53][67]
+缺点： - 监管压力 - 信用评级周期性担忧[64]
+最终投资结果：持有至今。初始投资约5亿美元，截至2025年浮盈超过1000%，市值超110亿美元[53][60]。
+
+1.11 BNSF铁路
+背景：2009年金融危机低谷期，经济衰退，公司经营的铁路货运业务量大幅下滑。
+优点： - 铁路运输的成本和环保优势 - 不可替代的基础设施
+[72][76]
+缺点： - 经济衰退导致货运量大幅下滑 - 收购溢价约30%-属于重资产、高资本开支行业
+
+最终投资结果：全资持有至今。成为伯克希尔非保险业务的盈利支柱[72][79]。
+
+1.12 华盛顿邮报 (Washington Post)
+背景：1973年，公司面临印刷工会大罢工，且遭到政府的政治打压和吊销执照威胁。行业开始被视为夕阳产业。
+优点： - 特许经营权 - 近乎垄断的分类广告市场 - 强大的定价权[77][78]
+缺点： -政治压力 - 工会问题 - 被视为夕阳产业[71][82]
+最终投资结果：持有至2014年。初始投资1062万美元，最终价值（含分红）超10亿美元，回报约100倍[71][77]。
+
+1.13 吉列 (Gillette)
+背景：1989年，公司增长放缓，且频繁成为华尔街杠杆收购（恶意收购）的目标，管理层疲于奔命。。23倍PE被市场认为过高[83][97]。
+优点： - 全球细分市场的绝对垄断地位 - 全球化品牌深入人心-利润率极高
+
+缺点： - 23倍PE被认为过高 - 面临恶意收购带来的管理层动荡-
+
+最终投资结果：2005年吉列被宝洁收购，巴菲特换股成为宝洁股东。初始6亿投资增值至51亿美元，回报约7倍[98][101]。
+
+1.14 日本五大商社
+背景：2020年疫情期间，日本股市低迷。市场担忧日本经济长期停滞，公司业务过于复杂且受大宗商品周期影响[81][84]。
+优点： - 极低估值（PB低于1） - 高股息 - 业务多元化且掌控日本经济命脉[81][89]
+缺点： - 本经济长期通缩，企业集团结构复杂，增长缓慢
+最终投资结果：持有至今并持续增持。截至2024年底浮盈近70%，市值达235亿美元[81][91]。
+
+1.15 内布拉斯加家具城 (NFM)
+背景：1983年，企业所在的家具零售行业竞争激烈，市场担忧高度依赖89岁创始人的个人能力，新闻鲜有报道这家地方性企业。
+优点： - 区域规模效应极强-创始人极致成本控制能力让同行无法竞争-薄利多销
+缺点： - 高度依赖创始人个人能力 -行业竞争激烈[82][87]
+最终投资结果：全资持有至今。NFM已发展为全美最大的家具零售商，单店年营收达数亿美元[83][88]。
+
+2. 失败案例
+2.1 美国航空 (US Airways)
+背景：1989年，公司正处于激进并购扩张期。随后海湾战争爆发导致油价飙升，行业陷入残酷价格战，媒体报道普遍看空行业前景。公司为抵御恶意收购急需资金。
+
+优点： - 通过并购成为行业巨头，具有规模效应 - 优先股的高额股息回报（9.25%） - 可转换条款带来潜在增值空间[6][9]
+缺点： - 行业受宏观经济波动影响巨大 - 高运营成本使其在竞争中处于劣势-行业重资产、高负债、同质化严重
+最终投资结果：1995年账面亏损一度达75%。1998年依靠英国航空注资拿回本金和约2.4亿美元股息。巴菲特反思称航空业是”价值毁灭”的典范，这是”贪图便宜”和”自大草率”导致的错误[2][9]。
+
+2.2 IBM
+背景：2011年，公司正通过大规模股票回购推高每股盈利，但技术分析师普遍质疑其在云计算革命中的迟钝，传统IT外包模式面临被AWS和Azure颠覆的风险。
+优点： - 企业转换成本极高 - 财务指标（ROE、现金流）近乎完美 - 被视为稳定的”老派科技”服务商[1][3]
+缺点： - 在云计算革命中反应迟钝 - 传统主机架构和IT外包模式面临被颠覆风险[1][5]
+最终投资结果：2017年开始减持，2018年清仓，账面亏损约数十亿美元，且错失同期标普500翻倍的机会成本。巴菲特反思称低估了”技术典范转移”的破坏力，承认看错了IBM的护城河[3][8]。
+
+2.3 卡夫亨氏 (Kraft Heinz)
+背景：2015年，在3G资本推动下，公司由两家食品巨头合并而来。质疑者担忧3G资本激进的”零基预算”会损害品牌研发，消费者偏好正从加工食品转向健康有机食品[23][24]。
+优点： - 两家食品巨头合并后的协同效应 - 3G资本卓越的成本控制能力 - 经典品牌的长期消费粘性[15][23]
+缺点： - “零基预算”可能损害品牌研发和长期竞争力 - 消费者偏好转向健康有机食品-公司负债过高
+最终投资结果：2019年和2025年分别计提30亿和38亿美元减值。股价较合并时下跌约70%，十年浮亏超百亿美元。巴菲特坦言”支付了过高价格”，低估了零售商自有品牌的冲击[19][21]。
+
+2.4 能源未来控股 (EFH)
+背景：2007年，公司所在的公共事业行业稳定，只要天然气价格保持在高位，公司用极低成本发出的煤电和核电，就能按高昂的市场电价卖出，从而赚取丰厚利润。
+优点： - 需求永远存在，现金流极其稳定 - 作为债权投资安全性较高[26][35]
+缺点： - 高杠杆债务 - 燃煤电厂失去竞争力[28][30]
+最终投资结果：EFH于2014年破产，税前损失约8.73亿美元。巴菲特反思这是”重大的主动失误”，教训是重大决策必须与合伙人商量[29][31]。
+
+2.5 乐购 (Tesco)
+背景：2006年是英国无可争议的零售霸主，占据了英国食品杂货市场约30%的份额。净资产收益率（ROE）常年保持在15%左右，正大举进军亚洲和美国市场。
+优点： - 在英国拥有统治地位 - 正积极进行全球扩张 - 规模优势 [39][41]
+缺点： - 市场扩张存在不确定性 - 面临廉价超市激烈竞争
+最终投资结果：税后亏损4.44亿美元。巴菲特反思这是”吮大拇指”的错误——在发现管理层问题和”厨房里的蟑螂”时行动迟缓，未能及时清仓[36][40]。
+
+2.6 通用再保险 (General Re)
+背景：1998年，公司是美国最大、全球第三的再保险巨头，收购它能带来了高达140亿美元的巨额浮存金，能借此进军全球市场。但媒体报道公司承保纪律松懈。
+优点： - 全球再保险巨头，能提供巨额无成本浮存金
+缺点： - 承保质量存疑 - 准备金严重不足 - 持有大量复杂衍生品合约[38][43]
+最终投资结果：2001年”911”事件导致巨额赔付，衍生品清理损失约4亿美元。巴菲特反思：1. 支付方式错误（使用股票而非现金导致股权稀释）；2. 尽职调查严重不足[38][43]。
+
+2.7 Dexter鞋业
+背景：1993年，美国本土制造业面临海外廉价劳动力的冲击，但公司当时业绩依然亮眼。
+优点： - 品牌口碑好，本土制造盈利能力强-员工忠诚度高- 卓越的管理水平
+缺点： - 全球化浪潮下亚洲低成本制鞋业崛起 - 美国本土制造成本劣势[46][50]
+最终投资结果：Dexter价值最终归零。由于使用股票支付，这笔1.6%的股权在2025年价值已超百亿美元。巴菲特称这是他”一生中最糟糕的投资”，教训是绝不能用”伟大的企业股权”换取”平庸甚至失败的企业”[46][52]。
+
+2.8 精密机件 (PCC)
+背景：2016年，这是一家重资产、受宏观周期影响的制造业公司，具有极高的技术壁垒。公司管理层很重视成本控制、生产效率和产品质量。长期来看市场需求稳定。但股价较高，如收购市盈率（PE）将超过20倍。
+优点： - 在航空航天领域拥有近乎垄断的地位 - 客户包括波音和空客 - 长期盈利潜力[55][56]
+缺点： - 收购溢价高- 航空周期波动风险[56][65]
+最终投资结果：2020年新冠疫情导致航空业停摆，计提约110亿美元资产减值。巴菲特在2021年股东信中承认”付出了太多”，对PCC的正常盈利潜力过于乐观[54][55]。
+
+2.9 索罗门兄弟 (Salomon Brothers)
+背景：1987年，公司是华尔街绝对的“债券之王” ，在债券交易和承销领域占据绝对垄断地位。此时公司为避免恶意收购，向你开出优厚条件：7亿美元买入年股息率高达9%的可转换优先股。
+优点： - 华尔街顶尖的债券交易商 - 9%的固定股息及转换权[57][61]
+缺点： - 企业文化贪婪，高管薪酬过高，盈利波动大，缺乏风险控制
+最终投资结果：巴菲特被迫出任临时董事长拯救公司，1997年卖给旅行者集团。虽财务上未亏损，但巴菲特反思称这类投资极度耗费精力且风险巨大，此后十多年对华尔街交易避而远之[58][64]。
+
+3. 参考文献
+[1] 新浪财经, 2018-01-12. 1988年，巴菲特为什么要买入可口可乐？. http://cj.sina.cn/article/detail/3941781593/569112
+[2] CNBC, 2018-04-01. Buffett’s bumpy ride with the airline industry. https://cnbc.com/2018/04/01/buffett-bumpy-ride-airline-industry.html
+[3] 新浪财经, 2024-11-26. 14年赚了32倍：巴菲特投资比亚迪往事. https://finance.sina.com.cn/wm/2024-11-26/doc-incxmcyh4098815.shtml
+[4] LA Times, 1995-03-14. Buffett Takes Hit on Airline Investment. https://latimes.com/archives/la-xpm-1995-03-14-fi-buffett-airline.html
+[5] rich01.com, 2022-01-16. 巴菲特的賠錢虧損股票清單. https://rich01.com/buffett-loss-stocks
+[6] Forbes, 2020-05-03. For A Smart Investor, Warren Buffett Sure Slipped Up When It Came To Airlines. https://forbes.com/2020/05/03/buffett-airlines-mistake
+[7] 新浪新闻, 2016-05-18. 苹果走下神坛，巴菲特为何11亿元买苹果股票？. https://news.sina.cn/pl/2016-05-18/detail-ifxsenvn7283867.d.html
+[8] developer.aliyun.com. 巴菲特为何清仓IBM？技术人员反思. https://developer.aliyun.com/article/buffett-ibm
+[9] 凤凰网, 2023-05-03. 智者千虑，必有一失——巴菲特的10大失手时刻. https://h5.ifeng.com/buffett-mistakes
+[15] 香港經濟日報, 2026-01-21. 股神巴菲特｜巴郡或減持食品巨頭卡夫亨氏. https://inews.hket.com/article/buffett-kraft
+[19] 知乎专栏, 2022-03-18. Alchemy观点| 巴菲特购买苹果案例分析. https://zhuanlan.zhihu.com/p/483317422
+[20] 新浪财经, 2025-03-15. 巴菲特投资案例：可口可乐（1988年）. https://finance.sina.com.cn/money/smjj/smdt/2025-03-15/doc-ineptsyk1762246.shtml
+[21] 新浪财经, 2025-09-08. 投资败笔卡夫亨氏，巴菲特十年”滑铁卢”. https://finance.sina.com.cn/2025-09-08/kraft-heinz.shtml
+[22] Yahoo 財經, 2022-01-05. 巴菲特於2016年買入蘋果股票，現已帳面賺逾1200億美元. https://hk.finance.yahoo.com/news/buffett-apple-120b
+[23] Yahoo 財經, 2021-04-30. 持股超過30年巴菲特為何買可口可樂？. https://hk.finance.yahoo.com/news/buffett-coca-cola
+[24] The Autopian, 2025-09-22. Warren Buffett Made Billions On Chinese EVs. https://theautopian.com/warren-buffett-made-billions-on-chinese-evs-heres-his-reason-for-selling-his-investments
+[26] 财富中文网, 2024-09-25. 巴菲特经典投资案例：美国运通. https://fortunechina.com/shangye/c/2024-09/25/content_458566.htm
+[28] 大纪元, 2014-04-30. 令巴菲特巨亏的能源未来公司破产. https://epochtimes.com/2014/04/30/efh-bankruptcy
+[29] 腾讯新闻, 2021-04-29. 盘点巴菲特15大投资败笔. https://news.qq.com/buffett-15-mistakes
+[30] 老虎社区, 2022-03-03. 大师经典｜股神为何会重仓一家公司近70年？. https://laohu8.com/post/632842280
+[31] Financial Post, 2014-03-03. Warren Buffett letter reveals ‘big’ US$873-million investing mistake. https://financialpost.com/2014/03/03/buffett-efh-mistake
+[32] 35斗, 2021-03-15. 这颗”百年糖果”，竟然改变了股神巴菲特的一生？. http://vcearth.com/sees-candies
+[33] 數位時代, 2025-05-22. 巴菲特最甜蜜的投資！收購逾50年投報率飆8000%：See’s Candies. https://bnext.com.tw/article/83324/warren-buffet-sees-candy
+[35] Fortune, 2024-09-22. Warren Buffett changed his investing strategy starting with American Express. https://fortune.com/2024/09/22/warren-buffett-investing-strategy-american-express-stock-scandal
+[36] 新浪财经, 2023-08-01. 巴菲特在百年零售巨头上曾失手，“吮大拇指”亏掉4亿多美元. https://finance.sina.cn/tesco-mistake
+[38] 巴菲特知识库. 通用再保险（General Re）. https://buffett-letters-eir.pages.dev/companies/通用再保险
+[39] 华盛通, 2023-08-09. 夜讀| 巴菲特在百年零售巨頭上曾失手. https://hstong.com/news/hk/detail/23080915075673590
+[40] 鉅亨網, 2014-10-22. 巴菲特也是凡人揭秘股神的3次投資失敗. https://news.cnyes.com/buffett-failures
+[41] FutureBlind, 2014-08-26. 1976 Buffett Letter About Geico. https://futureblind.com/p/1976-buffett-letter-about-geico
+[42] 界面, 2014-09-24. 特易购狂泻43% 股神巴菲特亏了7.5亿美元. https://jiemian.com/tesco-plunge
+[43] 搜狐, 2019-11-24. 投资者都会犯错，股神也不例外. https://sohu.com/buffett-mistakes
+[44] 香港商報, 2014-11-06. 巴菲特迄今最成功的六筆投資. http://hkcd.com/content/2014-11/06/content_884939.html
+[45] 华盛通, 2022-05-01. 回顧巴菲特令中國投資圈印象最深刻的一筆投資：中國石油. https://hstong.com/news/hk/detail/22050119163644114
+[46] 虎嗅网, 2024-10-07. 巴菲特一生最失败的投资. https://m.huxiu.com/article/dexter-failure
+[47] 虎嗅网, 2022-03-23. 跟着巴菲特买石油股？“股神”也栽过不少跟头. https://m.huxiu.com/article/513972.html
+[48] Acquirers Multiple, 2018-07-31. Warren Buffett: “The Worst Deal That I’ve Made”. https://acquirersmultiple.com/2018/07/buffett-worst-deal
+[50] 中国基金网, 2022-07-10. 让巴菲特后悔的五件失败之举. https://app-web.chnfund.com/buffett-regrets
+[51] 华盛通, 2023-08-10. 存款「不翼而飛」后再領2億美元罰單，美國第四大銀行頻陷醜聞旋渦. https://hstong.com/news/hk/detail/23081015075673590
+[52] Moomoo, 2025-04-30. Warren Buffett’s most remarkable failure. https://moomoo.com/buffett-remarkable-failure
+[53] StockCircle. Warren Buffett: 38 Moody’s transactions. https://stockcircle.com/portfolio/warren-buffett/mco/transactions
+[54] 界面新闻. 巴菲特承认百亿美元错误，斥资321亿美元收购后损失98亿. https://jiemian.com/pcc-mistake
+[55] 新浪财经, 2021-03-06. 让股神亏掉110亿美元的公司. https://finance.sina.com.cn/2021-03-06/pcc-loss
+[56] Hedge Fund Alpha, 2019-09-06. How Warren Buffett Changed His Idea On Fannie Mae And Freddie Mac. https://hedgefundalpha.com/stocks/how-warren-buffett-changed-his-idea-on-fannie-mae-and-freddie-mac
+[57] 今周刊, 2021-02-03. 砸錢投資的銀行瀕死股神用這招救回. https://businesstoday.com.tw/salomon-rescue
+[58] NY Times DealBook, 2008-09-24. Warren Buffett and the Salomon Saga. https://dealbook.nytimes.com/2008/09/24/buffett-salomon
+[59] Apple Podcasts. 大而不倒的预演：巴菲特押注信誉拯救所罗门. https://podcasts.apple.com/salomon-story
+[60] Seeking Alpha, 2024-01-18. Unveiling Moody’s: The Untold Story Behind Berkshire’s Investment. https://seekingalpha.com/article/4663562-unveiling-moodys-the-untold-story-behind-berkshires-investment
+[62] The Fool, 2014-05-22. Warren Buffett Makes a Lesson of Fannie Mae and Freddie Mac. https://fool.com/investing/general/2014/05/22/warren-buffett-makes-a-lesson-of-fannie-and-freddi.aspx
+[63] GuruFocus, 2021-11-12. What We Can Learn From Buffett’s 1,500% Return on Freddie Mac. https://gurufocus.com/news/1570574/what-we-can-learn-from-buffetts-1500-return-on-freddie-mac
+[64] Fortune, 1997-10-27. Warren Buffett’s Wild Ride at Salomon. https://fortune.com/1997/10/27/buffett-salomon-wild-ride
+[65] 澎湃新闻, 2015-08-10. 巴菲特投资史上最大单！372亿美元收购精密机件. https://m.thepaper.cn/pcc-acquisition
+[71] 华盛通, 2026-04-08. 夜讀| 一筆被遺忘的「半價交易」：1973年巴菲特如何用「過時」的報紙. https://hstong.com/news/hk/detail/26040822544452546
+[72] The Guardian, 2009-11-03. Warren Buffett signals his confidence by buying into US railways. https://theguardian.com/business/2009/nov/03/warren-buffett-buys-bnsf-railway
+[73] LA Times, 2009-11-04. Warren Buffett’s Berkshire Hathaway buying Burlington Northern. https://latimes.com/archives/la-xpm-2009-nov-04-fi-buffett4-story.html
+[77] Yahoo 財經, 2013-08-06. 華盛頓郵報被收購巴菲特估賺10億美元. https://tw.stock.yahoo.com/news/washington-post-buffett
+[81] 证券时报, 2025-02-25. 巴菲特百亿美元”豪赌”引爆日本股市. https://stcn.com/article/detail/1544465.html
+[82] 界面, 2019-12-26. 95岁二次创业，二度被巴菲特收购，她是股神最欣赏的传奇女商人. https://m.jiemian.com/article/3819758.html
+[83] CNBC, 2019-03-01. Warren Buffett and his relationship with retail legend Rose Blumkin. https://cnbc.com/2019/03/01/warren-buffett-and-his-relationship-with-retail-legend-rose-blumkin.html
+[85] 老巴俱乐部, 2025-09-04. 巴菲特消费类投资案例：内布拉斯加家具城1983年. https://bafeite.club/2025/09/04/nfm-1983
+[87] 搜狐, 2017-01-24. 95岁老太太年入18亿巴菲特：她是我喜欢的类型. https://m.sohu.com/n/479466943
+[88] StockFeel, 2017-04-25. 1983年巴菲特致股東的信：B夫人的故事. https://stockfeel.com.tw/1983-年巴菲特致股東的信
+[89] 鉅亨網, 2025-05-08. 巴菲特承諾再抱50年的日本商社：高股息、低估值優勢解析. https://news.cnyes.com/news/id/5966808
+[91] 每日经济新闻, 2023-05-11. “股神”又买对了！巴菲特投资的日本商社利润创新高. http://nbd.com.cn/rss/toutiao/articles/2819036.html
+[95] Self Taught MBA, 2025-03-17. Is This The Real Reason Why Warren Buffett Likes Japanese Trading Houses?. https://selftaughtmba.substack.com/p/is-this-the-real-reason-why-warren
+[97] UK ADVFN, 2019-05-31. What investors can learn from Warren Buffett’s Gillette investment. https://uk.advfn.com/newspaper/glenarnold/51060/what-investors-can-learn-from-warren-buffett-s-gillette-investment
+[100] 维科号, 2026-03-09. 吉列穿越百年背后：影响了一代代企业的商业模式典范. https://mp.ofweek.com/Internet/a156714631637
+[101] Forbes, 2005-01-28. Buffett: Berkshire To Be Top Shareholder In P&G, Gillette ‘Dream Deal’. https://forbes.com/2005/01/28/0128autofacescan06.html
+[102] LA Times, 1989-07-22. Razor Company ‘Taken Out of Play’: Buffett Investment May…. https://latimes.com/archives/la-xpm-1989-07-22-fi-3487-story.html
+[105] 知乎专栏, 2023-08-04. 【读书笔记】《巴菲特投资案例集》二十七：吉列. https://zhuanlan.zhihu.com/p/647942262
+
+报告生成时间：2026年4月26日

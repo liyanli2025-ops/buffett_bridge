@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>巴菲特：从未亮出的那张底牌</title>
+  <link rel="stylesheet" href="./css/styles.css?v=20260426a">
+
+
+</head>
+<body>
+
+  <!-- ============ SCREEN 1: 开屏页 ============ -->
+  <div id="screen-intro" class="screen active">
+    <!-- 视频区域 -->
+    <div class="intro-video-wrap">
+      <video id="videoStart" class="intro-video" autoplay loop muted playsinline>
+        <source src="./start.mp4" type="video/mp4">
+      </video>
+      <video id="videoChupai" class="intro-video chupai-video" muted playsinline>
+        <source src="./chupai.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- 叠加在视频上的内容 -->
+    <div class="intro-overlay">
+      <!-- 标题 -->
+      <h1 class="intro-title">巴菲特：从未亮出的<br>那张底牌</h1>
+      <p class="intro-subtitle">伯克希尔哈撒韦 2026 股东会特别策划</p>
+
+      <!-- 规则说明 -->
+      <div class="intro-rules">
+        <div class="rule-item">
+          <span class="rule-icon">🃏</span>
+          <span>巴菲特会向你出 <strong>24 张</strong>投资牌，每张牌背后是一个真实的投资故事</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">6️⃣</span>
+          <span>你只有 <strong>6 次</strong>投资机会，选了就不能反悔</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">👉</span>
+          <span>右划<strong>投资</strong>，左划<strong>放弃</strong>，过了就不能回头</span>
+        </div>
+      </div>
+
+      <!-- 开始按钮 -->
+      <button class="btn-start" id="btn-start">坐上牌桌</button>
+      <p class="intro-hint">准备好了吗？</p>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 2: 发牌界面 ============ -->
+  <div id="screen-game" class="screen hidden">
+    <!-- 顶部状态栏 -->
+    <div class="game-status">
+      <div class="status-progress">第 <span>1/24</span> 张</div>
+      <div class="status-chances">
+        剩余 <span class="chance-badge">6</span> 次机会
+      </div>
+    </div>
+
+    <!-- 卡牌区域 -->
+    <div class="card-area"></div>
+
+    <!-- 滑动提示 -->
+    <div class="swipe-hints">
+      <div class="swipe-hint pass">
+        <span class="hint-arrow">←</span>
+        <span>放弃</span>
+      </div>
+      <div class="swipe-hint invest">
+        <span>投资</span>
+        <span class="hint-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- 投资点 -->
+    <div class="invest-dots">
+      <div class="invest-dot"></div>
+      <div class="invest-dot"></div>
+      <div class="invest-dot"></div>
+      <div class="invest-dot"></div>
+      <div class="invest-dot"></div>
+      <div class="invest-dot"></div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 3: 结果页 ============ -->
+  <div id="screen-result" class="screen hidden"></div>
+
+  <!-- Scripts -->
+  <script src="./js/data.js?v=20260426c"></script>
+  <script src="./js/app.js?v=20260426c"></script>
+</body>
+</html>

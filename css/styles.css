@@ -1,0 +1,963 @@
+/* ========================================================
+   巴菲特桥牌H5 - 样式表
+   风格：复古金融 × 桥牌俱乐部 × Art Deco
+   ======================================================== */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f7;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --border: #e0e0e0;
+  --border-light: #eee;
+  --accent: #2c3e50;
+  --accent-light: #3d5567;
+  --gold: #c9a84c;
+  --gold-bright: #e8c95a;
+  --gold-dim: #8b7a3a;
+  --gold-glow: rgba(201, 168, 76, 0.25);
+  --red: #c0392b;
+  --red-soft: #e74c3c;
+  --green-invest: #27ae60;
+  --green-invest-bright: #2ecc71;
+  --blue-info: #5dade2;
+  --card-w: min(88vw, 380px);
+  --card-h: min(72vh, 560px);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-card: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  --font-display: 'Georgia', 'Noto Serif SC', 'SimSun', serif;
+  --font-body: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Screen Container ---------- */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
+  z-index: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* ================================================================
+   SCREEN 1 - 开屏页
+   ================================================================ */
+#screen-intro {
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0;
+  text-align: center;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* Video area */
+.intro-video-wrap {
+  width: 100%;
+  height: 40vh;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+}
+.intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.chupai-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.chupai-video.active {
+  opacity: 1;
+}
+.intro-video-wrap.blur-out {
+  animation: videoBlurOut 0.8s ease forwards;
+}
+@keyframes videoBlurOut {
+  0% { filter: blur(0); opacity: 1; }
+  100% { filter: blur(20px); opacity: 0; }
+}
+
+/* Overlay content below video */
+.intro-overlay {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Title */
+.intro-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.intro-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
+
+/* Rules card */
+.intro-rules {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 32px;
+  max-width: 340px;
+  width: 100%;
+}
+.intro-rules .rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+.intro-rules .rule-item + .rule-item {
+  border-top: 1px solid var(--border-light);
+}
+.rule-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: var(--bg);
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+
+/* Start button */
+.btn-start {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 48px;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transition: all 0.3s var(--transition-smooth);
+  overflow: hidden;
+}
+.btn-start:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.intro-hint {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ================================================================
+   SCREEN 2 - 发牌界面
+   ================================================================ */
+#screen-game {
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* Top status bar */
+.game-status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  z-index: 10;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, transparent 100%);
+}
+.status-progress {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+}
+.status-progress span {
+  color: var(--accent);
+  font-weight: 700;
+}
+.status-chances {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.chance-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  border-radius: 13px;
+}
+
+/* Deal animation placeholder */
+.deal-animation {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background: rgba(255,255,255,0.95);
+  transition: opacity 0.5s ease;
+}
+.deal-animation.hidden { opacity: 0; pointer-events: none; }
+.deal-text {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--accent);
+  text-align: center;
+  animation: dealPulse 1.5s ease-in-out infinite;
+}
+@keyframes dealPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Card area */
+.card-area {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+/* The swipeable card */
+.game-card {
+  width: var(--card-w);
+  height: var(--card-h);
+  position: relative;
+  touch-action: none;
+  cursor: grab;
+  will-change: transform;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+/* Card front content */
+.card-front-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px 20px;
+  overflow: hidden;
+}
+.front-totem-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.front-totem-small {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+/* Divider */
+.card-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-light);
+  margin: 0 0 14px;
+  flex-shrink: 0;
+}
+
+/* Riddle text area */
+.card-riddle {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: #333;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
+}
+.card-riddle::-webkit-scrollbar { width: 3px; }
+.card-riddle::-webkit-scrollbar-thumb { background: #bbb; border-radius: 2px; }
+.card-riddle::-webkit-scrollbar-track { background: transparent; }
+
+/* Swipe overlay indicators - 已移除 */
+.swipe-indicator {
+  display: none;
+}
+
+/* Swipe hints */
+.swipe-hints {
+  position: absolute;
+  bottom: max(100px, calc(50vh - var(--card-h)/2 - 60px));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 28px;
+  z-index: 5;
+  pointer-events: none;
+}
+.swipe-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.45;
+}
+.swipe-hint.pass { color: var(--red-soft); }
+.swipe-hint.invest { color: var(--green-invest-bright); }
+.hint-arrow {
+  font-size: 1.1rem;
+  animation: hintBounce 2s ease-in-out infinite;
+}
+.swipe-hint.pass .hint-arrow { animation-name: hintBounceLeft; }
+.swipe-hint.invest .hint-arrow { animation-name: hintBounceRight; }
+@keyframes hintBounceLeft {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-5px); }
+}
+@keyframes hintBounceRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* Investment dots indicator */
+.invest-dots {
+  position: absolute;
+  bottom: max(50px, calc(50vh - var(--card-h)/2 - 100px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+.invest-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  transition: all 0.4s var(--transition-smooth);
+}
+.invest-dot.filled {
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(44,62,80,0.3);
+}
+
+/* Toast message */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  max-width: 88vw;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  text-align: center;
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.4s var(--transition-smooth);
+  backdrop-filter: blur(8px);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.invest {
+  background: rgba(39,174,96,0.9);
+  border: 1px solid var(--green-invest-bright);
+  color: #fff;
+}
+.toast.pass {
+  background: rgba(192,57,43,0.9);
+  border: 1px solid var(--red-soft);
+  color: #fff;
+}
+
+/* ================================================================
+   SCREEN 3 - 结果页（重构）
+   ================================================================ */
+#screen-result {
+  padding: 0 0 60px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: #f5f0eb;
+}
+
+/* --- 顶部：结果信息左 + 视频右上角 --- */
+.result-top-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 32px 16px 16px;
+  gap: 12px;
+  width: 100%;
+}
+.result-top-info {
+  flex: 1;
+  min-width: 0;
+}
+.result-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.result-stats {
+  display: flex;
+  gap: 16px;
+  margin: 10px 0;
+}
+.stat-item { text-align: left; }
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.result-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+/* 右上角视频 - 原始比例，无边框 */
+.result-video-corner {
+  flex-shrink: 0;
+  width: 120px;
+  overflow: hidden;
+}
+.result-video-corner video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- 6张牌 --- */
+.result-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 12px;
+}
+
+.result-section-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--accent);
+  padding: 0 16px;
+  margin: 20px 0 14px;
+}
+
+/* 单张牌 */
+.result-mini-card {
+  width: calc(33.33% - 3px);
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+}
+.result-mini-card img.mini-card-bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.result-mini-card img.mini-card-totem {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* --- 翻牌弹窗 --- */
+.flip-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+.flip-modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 3D翻牌容器 */
+.flip-card-container {
+  width: min(82vw, 320px);
+  aspect-ratio: 3 / 4.2;
+  perspective: 1200px;
+  position: relative;
+}
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--transition-smooth);
+}
+.flip-card-inner.face-a {
+  transform: rotateY(0);
+}
+.flip-card-inner.face-b {
+  transform: rotateY(180deg);
+}
+
+/* 通用面 */
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+/* 正面A：公司信息 */
+.flip-face-a {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+.flip-face-a .flip-totem {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+.flip-face-a .flip-company {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.flip-face-a .flip-type-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.flip-face-a .flip-result-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.flip-face-a .flip-result-text {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+.flip-face-a .flip-verdict {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.flip-verdict.correct {
+  color: var(--green-invest);
+  background: rgba(39,174,96,0.08);
+}
+.flip-verdict.wrong {
+  color: var(--red-soft);
+  background: rgba(231,76,60,0.08);
+}
+.flip-buffett-choice {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+.flip-buffett-choice.correct {
+  color: var(--green-invest);
+  background: rgba(39,174,96,0.08);
+}
+.flip-buffett-choice.wrong {
+  color: var(--red-soft);
+  background: rgba(231,76,60,0.08);
+}
+.flip-face-a .flip-cta {
+  margin-top: auto;
+  text-align: center;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.flip-face-a .flip-cta:active { opacity: 0.8; }
+
+/* 背面B：巴菲特投资理论 */
+.flip-face-b {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px;
+  text-align: center;
+  background: var(--accent);
+  color: #fff;
+}
+.flip-face-b .flip-b-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+.flip-face-b .flip-b-label {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+.flip-face-b .flip-b-theory {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.flip-face-b .flip-b-quote {
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 16px;
+  margin-top: auto;
+}
+
+/* 关闭按钮 */
+.flip-modal-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* --- 其他牌面（保留但精简） --- */
+.others-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  margin: 20px 16px 8px;
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.others-toggle:active { background: var(--border-light); }
+.others-toggle .arrow { transition: transform 0.3s ease; }
+.others-toggle.open .arrow { transform: rotate(180deg); }
+
+.others-grid {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s var(--transition-smooth);
+  padding: 0 16px;
+}
+.others-grid.open { max-height: 3000px; }
+.others-grid-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px 0 20px;
+}
+.other-card {
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.other-card:active {
+  background: var(--bg-subtle);
+  border-color: var(--border);
+}
+.other-card-totem { width: 48px; height: 48px; object-fit: contain; display: block; margin-bottom: 4px; border-radius: 6px; }
+.other-card-answer {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.other-card-type {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* Bottom actions */
+.result-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 16px;
+  margin-top: 8px;
+}
+.btn-action {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-action:active { transform: scale(0.97); }
+.btn-replay {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.btn-share {
+  background: var(--bg);
+  color: var(--accent);
+  border: 1.5px solid var(--border);
+}
+
+.result-footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  opacity: 0.3;
+  letter-spacing: 2px;
+}
+
+/* ================================================================
+   MODAL - 使用翻牌弹窗 (flip-modal) 替代
+   ================================================================ */
+
+/* ================================================================
+   Card enter animation
+   ================================================================ */
+.card-enter {
+  animation: cardEnter 0.5s var(--transition-smooth) both;
+}
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.9) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0);
+  }
+}
+
+/* Fly out animations */
+.fly-right {
+  animation: flyRight 0.4s ease-in forwards;
+}
+@keyframes flyRight {
+  to { transform: translateX(120vw) perspective(800px) rotateY(25deg); opacity: 0; }
+}
+.fly-left {
+  animation: flyLeft 0.4s ease-in forwards;
+}
+@keyframes flyLeft {
+  to { transform: translateX(-120vw) perspective(800px) rotateY(-25deg); opacity: 0; }
+}
+
+/* ================================================================
+   Loading screen for deal animation
+   ================================================================ */
+.deal-cards-anim {
+  display: flex;
+  gap: 4px;
+}
+.deal-mini-card {
+  width: 30px;
+  height: 42px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  animation: dealDrop 0.8s ease-out both;
+}
+.deal-mini-card:nth-child(1) { animation-delay: 0.1s; }
+.deal-mini-card:nth-child(2) { animation-delay: 0.2s; }
+.deal-mini-card:nth-child(3) { animation-delay: 0.3s; }
+.deal-mini-card:nth-child(4) { animation-delay: 0.4s; }
+.deal-mini-card:nth-child(5) { animation-delay: 0.5s; }
+@keyframes dealDrop {
+  0% { transform: translateY(-40px) rotate(-10deg); opacity: 0; }
+  60% { transform: translateY(5px) rotate(2deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+/* ================================================================
+   Responsive fine-tuning
+   ================================================================ */
+@media (max-height: 680px) {
+  .intro-animation { width: 150px; height: 150px; }
+  .card-flip-placeholder { width: 80px; height: 112px; }
+  .intro-title { font-size: 1.5rem; }
+  .intro-rules { padding: 14px; margin-bottom: 20px; }
+  :root { --card-h: min(68vh, 480px); }
+  .totem-img { width: 50%; }
+  .card-riddle { font-size: 0.75rem; }
+}
+@media (min-width: 500px) {
+  :root { --card-w: 400px; --card-h: 560px; }
+}
