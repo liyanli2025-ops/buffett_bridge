@@ -352,12 +352,13 @@ body::before {
 .front-totem-row {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
   flex-shrink: 0;
 }
 .front-totem-small {
-  width: 52px;
-  height: 52px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 
@@ -374,8 +375,8 @@ body::before {
 .card-riddle {
   flex: 1;
   overflow-y: auto;
-  font-size: 0.8rem;
-  line-height: 1.7;
+  font-size: 0.95rem;
+  line-height: 1.8;
   color: #333;
   padding-right: 4px;
   scrollbar-width: thin;
