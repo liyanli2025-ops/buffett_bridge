@@ -303,14 +303,6 @@
 
   // ========== 结果计算 ==========
   function finishGame() {
-    // 把所有未翻到的牌也记录（用户没有机会看的牌）
-    for (let i = state.currentIndex; i < TOTAL_CARDS; i++) {
-      const c = state.deck[i];
-      if (!state.invested.find(x => x.id === c.id) && !state.passed.find(x => x.id === c.id)) {
-        state.passed.push({ ...c, userChoice: 'unseen' });
-      }
-    }
-
     let correctCount = 0;
     state.invested.forEach(card => {
       if (card.isCorrectToInvest) correctCount++;
@@ -351,44 +343,39 @@
     });
 
     container.innerHTML = `
-      <!-- 顶部英雄区 -->
-      <div class="result-hero">
-        <div class="result-hero-info">
-          <div class="result-hero-title">${titleObj.emoji} ${titleObj.title}</div>
-          <div class="result-stat-row">
-            <div class="result-stat-card">
-              <div class="sv">${correctCount}/${MAX_INVEST}</div>
-              <div class="sl">正确决策</div>
-            </div>
-            <div class="result-stat-card">
-              <div class="sv">${scoreDisplay}</div>
-              <div class="sl">累计收益率</div>
-            </div>
+      <!-- 顶部：视频全宽 + 数字叠加在底部 -->
+      <div class="result-video-hero">
+        <video autoplay loop muted playsinline>
+          <source src="./final.mp4" type="video/mp4">
+        </video>
+        <div class="result-video-overlay">
+          <div class="result-overlay-stat">
+            <div class="overlay-sv">${correctCount}/${MAX_INVEST}</div>
+            <div class="overlay-sl">正确决策</div>
           </div>
-          <div class="result-hero-desc">${titleObj.desc}</div>
+          <div class="result-overlay-stat">
+            <div class="overlay-sv">${scoreDisplay}</div>
+            <div class="overlay-sl">累计收益率</div>
+          </div>
         </div>
-        <div class="result-video-corner">
-          <video autoplay loop muted playsinline>
-            <source src="./final.mp4" type="video/mp4">
-          </video>
-        </div>
+      </div>
+
+      <!-- 头衔 + 描述 -->
+      <div class="result-title-section">
+        <div class="result-title-text">${titleObj.emoji} ${titleObj.title}</div>
+        <div class="result-title-desc">${titleObj.desc}</div>
       </div>
 
       <!-- 投资组合 -->
       <div class="result-section-label">你的投资组合</div>
-      <div class="result-cards-grid">
-        ${cardsGridHTML}
-      </div>
+      <div class="result-cards-grid">${cardsGridHTML}</div>
 
       <!-- 放弃的机会 -->
       ${passedCards.length > 0 ? `
       <div class="result-passed-section">
         <div class="result-section-label">那些被你放弃的机会</div>
-        <div class="result-cards-grid">
-          ${othersHTML}
-        </div>
-      </div>
-      ` : ''}
+        <div class="result-cards-grid">${othersHTML}</div>
+      </div>` : ''}
 
       <div class="result-actions">
         <button class="btn-action btn-replay">再来一局</button>
