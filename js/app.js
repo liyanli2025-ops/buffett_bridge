@@ -327,8 +327,6 @@
 
     const scoreDisplay = totalScore > 0 ? `+${totalScore}%` : `${totalScore}%`;
 
-    console.log('[结果页] invested数量:', state.invested.length, '牌:', state.invested.map(c => c.answer));
-
     // 6张牌背HTML
     let cardsGridHTML = '';
     state.invested.forEach((card, i) => {
@@ -339,7 +337,6 @@
         </div>
       `;
     });
-    console.log('[结果页] cardsGridHTML长度:', cardsGridHTML.length);
 
     // 用户放弃的牌
     const passedCards = state.passed;
@@ -354,21 +351,21 @@
     });
 
     container.innerHTML = `
-      <!-- 顶部：左侧信息 + 右上角视频 -->
-      <div class="result-top-row">
-        <div class="result-top-info">
-          <div class="result-title">${titleObj.emoji} ${titleObj.title}</div>
-          <div class="result-stats">
-            <div class="stat-item">
-              <div class="stat-value">${correctCount}/${MAX_INVEST}</div>
-              <div class="stat-label">正确决策</div>
+      <!-- 顶部英雄区 -->
+      <div class="result-hero">
+        <div class="result-hero-info">
+          <div class="result-hero-title">${titleObj.emoji} ${titleObj.title}</div>
+          <div class="result-stat-row">
+            <div class="result-stat-card">
+              <div class="sv">${correctCount}/${MAX_INVEST}</div>
+              <div class="sl">正确决策</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-value">${scoreDisplay}</div>
-              <div class="stat-label">累计收益率</div>
+            <div class="result-stat-card">
+              <div class="sv">${scoreDisplay}</div>
+              <div class="sl">累计收益率</div>
             </div>
           </div>
-          <div class="result-desc">${titleObj.desc}</div>
+          <div class="result-hero-desc">${titleObj.desc}</div>
         </div>
         <div class="result-video-corner">
           <video autoplay loop muted playsinline>
@@ -377,21 +374,25 @@
         </div>
       </div>
 
-      <!-- 6张牌 -->
-      <div class="result-section-title">翻开你的投资组合</div>
+      <!-- 投资组合 -->
+      <div class="result-section-label">你的投资组合</div>
       <div class="result-cards-grid">
         ${cardsGridHTML}
       </div>
 
-      <!-- 放弃/未翻到的牌 -->
-      <div class="result-section-title">那些被你放弃的机会</div>
-      <div class="result-cards-grid">
-        ${othersHTML}
+      <!-- 放弃的机会 -->
+      ${passedCards.length > 0 ? `
+      <div class="result-passed-section">
+        <div class="result-section-label">那些被你放弃的机会</div>
+        <div class="result-cards-grid">
+          ${othersHTML}
+        </div>
       </div>
+      ` : ''}
 
       <div class="result-actions">
-        <button class="btn-action btn-replay" id="btnReplay">再来一局</button>
-        <button class="btn-action btn-share" id="btnShare">分享战绩</button>
+        <button class="btn-action btn-replay">再来一局</button>
+        <button class="btn-action btn-share">分享战绩</button>
       </div>
       <div class="result-footer">伯克希尔哈撒韦 2026 股东会特别策划</div>
     `;
@@ -413,10 +414,10 @@
       });
     });
 
-    const replay = container.querySelector('#btnReplay');
+    const replay = container.querySelector('.btn-replay');
     if (replay) replay.addEventListener('click', () => startGame());
 
-    const share = container.querySelector('#btnShare');
+    const share = container.querySelector('.btn-share');
     if (share) share.addEventListener('click', () => showToast('分享功能即将上线', 'invest'));
   }
 
