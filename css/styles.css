@@ -98,32 +98,32 @@ body::before {
   padding: 0;
   text-align: center;
   background: var(--bg);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Video area */
 .intro-video-wrap {
   width: 100%;
-  height: 40vh;
   flex-shrink: 0;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background: var(--bg);
   position: relative;
 }
 .intro-video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 .chupai-video {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -370,8 +370,8 @@ body::before {
   gap: 14px;
 }
 .gc-totem {
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
   flex-shrink: 0;
