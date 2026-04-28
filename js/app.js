@@ -1,22 +1,18 @@
 /**
- * 巴菲特桥牌H5 - 游戏核心逻辑
- * 24张卡牌，牌背(图腾) → 牌面A(谜面) → 牌面B(结果)
+ * 巴菲特桥牌H5 - 游戏核心逻辑 V2 (方案C)
+ * 牌背(谜面) → 翻牌 → 牌面(投资价值+按钮决策) → 下一张
+ * 结算页：双翻牌（牌背→公司揭晓→巴菲特点评）
  */
 (function () {
   'use strict';
 
-  const MAX_INVEST = 6;
-  const SWIPE_THRESHOLD = 80;
-  const TOTAL_CARDS = CARDS.length;
+  const DEAL_COUNT = 6;
 
   const state = {
     deck: [],
     currentIndex: 0,
-    invested: [],
-    passed: [],
-    remaining: MAX_INVEST,
-    isAnimating: false,
-    cardEl: null
+    choices: [],
+    isAnimating: false
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -28,7 +24,6 @@
     result: $('#screen-result')
   };
 
-  /** Fisher-Yates 洗牌 */
   function shuffle(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -38,17 +33,16 @@
     return a;
   }
 
-  /** 平衡洗牌：前5张至少包含成功和失败各1张 */
-  function balancedShuffle(cards) {
-    const types = ['success', 'failure'];
+  function drawCards(cards, count) {
     let attempts = 0;
     let deck;
     do {
-      deck = shuffle(cards);
-      const first5Types = new Set(deck.slice(0, 5).map(c => c.type));
-      if (types.every(t => first5Types.has(t))) break;
+      deck = shuffle(cards).slice(0, count);
+      const s = deck.filter(c => c.type === 'success').length;
+      const f = deck.filter(c => c.type === 'failure').length;
+      if (s >= 2 && f >= 1) break;
       attempts++;
-    } while (attempts < 100);
+    } while (attempts < 200);
     return deck;
   }
 
@@ -61,251 +55,177 @@
 
   // ========== 开屏页 ==========
   var gameStarted = false;
+  var introTransitionDone = false;
 
   function initIntro() {
     var btnStart = document.getElementById('btn-start');
     if (!btnStart) return;
 
-    btnStart.onclick = function() {
+    btnStart.onclick = function () {
+      if (introTransitionDone) return;
       btnStart.disabled = true;
       var videoStart = document.getElementById('videoStart');
       var videoChupai = document.getElementById('videoChupai');
       var videoWrap = document.querySelector('.intro-video-wrap');
       var introOverlay = document.querySelector('.intro-overlay');
 
-      // 隐藏文字区
       if (introOverlay) {
         introOverlay.style.transition = 'opacity 0.4s ease';
         introOverlay.style.opacity = '0';
         introOverlay.style.pointerEvents = 'none';
       }
-
-      // 停止循环视频
       if (videoStart) videoStart.pause();
 
-      // 尝试播放出牌视频
       if (videoChupai) {
         videoChupai.classList.add('active');
         videoChupai.currentTime = 0;
         var p = videoChupai.play();
         if (p && p.then) {
-          p.then(function() {
-            videoChupai.onended = function() {
-              doTransition(videoWrap);
-            };
-            // 兜底
-            setTimeout(function() { doTransition(videoWrap); }, 15000);
-          }).catch(function() {
-            doTransition(videoWrap);
-          });
-        } else {
-          doTransition(videoWrap);
-        }
-      } else {
-        doTransition(videoWrap);
-      }
+          p.then(function () {
+            videoChupai.onended = function () { doTransition(videoWrap); };
+            setTimeout(function () { doTransition(videoWrap); }, 15000);
+          }).catch(function () { doTransition(videoWrap); });
+        } else { doTransition(videoWrap); }
+      } else { doTransition(videoWrap); }
     };
   }
 
   function doTransition(videoWrap) {
-    if (gameStarted) return;
-    gameStarted = true;
+    if (introTransitionDone) return;
+    introTransitionDone = true;
     if (videoWrap) videoWrap.classList.add('blur-out');
-    setTimeout(function() { startGame(); }, 600);
+    setTimeout(function () { startGame(); }, 600);
   }
 
   // ========== 游戏逻辑 ==========
   function startGame() {
-    gameStarted = false;
-    state.deck = balancedShuffle(CARDS);
+    if (gameStarted) return;
+    gameStarted = true;
+
+    state.deck = drawCards(CARDS, DEAL_COUNT);
     state.currentIndex = 0;
-    state.invested = [];
-    state.passed = [];
-    state.remaining = MAX_INVEST;
+    state.choices = [];
     state.isAnimating = false;
 
+    $$('.progress-dot').forEach(dot => { dot.className = 'progress-dot'; });
+
     showScreen('game');
-    renderCard();
     updateStatus();
+    renderCard();
+
+    setTimeout(() => { gameStarted = false; }, 800);
   }
 
   function updateStatus() {
-    $('.status-progress').innerHTML = `第 <span>${state.currentIndex + 1}/${TOTAL_CARDS}</span> 张`;
-    $('.chance-badge').textContent = state.remaining;
-    $$('.invest-dot').forEach((dot, i) => {
-      dot.classList.toggle('filled', i < MAX_INVEST - state.remaining);
-    });
+    $('.status-progress').innerHTML = `第 <span>${Math.min(state.currentIndex + 1, DEAL_COUNT)}/${DEAL_COUNT}</span> 张`;
   }
 
+  // ========== 方案C：牌背(谜面) + 翻牌 → 牌面(投资价值+按钮) ==========
   function renderCard() {
-    if (state.currentIndex >= TOTAL_CARDS || state.remaining <= 0) {
+    if (state.currentIndex >= DEAL_COUNT) {
       finishGame();
       return;
     }
 
     const card = state.deck[state.currentIndex];
     const area = $('.card-area');
-    const old = area.querySelector('.game-card');
+    const old = area.querySelector('.game-card-wrap');
     if (old) old.remove();
 
-    const el = document.createElement('div');
-    el.className = 'game-card card-enter';
-    el.innerHTML = `
-      <div class="card-front-content">
-        <div class="front-totem-row">
-          <img class="front-totem-small" src="${card.totemImg}" alt="">
+    const info = card.valueInfo || {};
+    const metricsHTML = (info.metrics || []).map(m =>
+      `<span class="vp-metric-tag"><span class="vp-metric-label">${m.label}</span><span class="vp-metric-value">${m.value}</span></span>`
+    ).join('');
+    const prosHTML = (info.pros || []).map(p => `<span class="vp-tag pro">${p}</span>`).join('');
+    const consHTML = (info.cons || []).map(c => `<span class="vp-tag con">${c}</span>`).join('');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'game-card-wrap card-enter';
+    wrap.innerHTML = `
+      <div class="gc-flipper">
+        <!-- 牌背：谜面 -->
+        <div class="gc-face gc-back">
+          <div class="gc-back-inner">
+            <img class="gc-totem" src="${card.totemImg}" alt="${card.totemName}" onerror="this.style.display='none'">
+            <div class="gc-riddle">${card.riddle}</div>
+            <div class="gc-flip-btn">翻牌查看详情</div>
+          </div>
         </div>
-        <div class="card-divider"></div>
-        <div class="card-riddle">${card.riddle}</div>
+        <!-- 牌面：投资价值 -->
+        <div class="gc-face gc-front">
+          <div class="gc-front-inner">
+            <div class="gc-front-header">
+              <img class="gc-front-totem" src="${card.totemImg}" alt="" onerror="this.style.display='none'">
+              <div class="gc-front-time">${info.time || ''}</div>
+            </div>
+            ${metricsHTML ? `<div class="gc-section"><div class="gc-section-title">财务指标</div><div class="gc-metrics">${metricsHTML}</div></div>` : ''}
+            <div class="gc-section"><div class="gc-section-title">优势</div><div class="gc-tags">${prosHTML}</div></div>
+            <div class="gc-section"><div class="gc-section-title">风险</div><div class="gc-tags">${consHTML}</div></div>
+            <div class="gc-detail">${info.detail || ''}</div>
+            <div class="gc-actions">
+              <button class="gc-btn gc-btn-pass" data-choice="pass">放弃</button>
+              <button class="gc-btn gc-btn-invest" data-choice="invest">投资</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="swipe-indicator invest"></div>
-      <div class="swipe-indicator pass"></div>
     `;
 
-    area.appendChild(el);
-    state.cardEl = el;
-    bindSwipe(el);
-  }
+    area.appendChild(wrap);
 
-  // ========== 滑动手势（全局单例管理） ==========
-  let _swipeCleanup = null;
-
-  function bindSwipe(el) {
-    // 先清理上一张卡牌的事件
-    if (_swipeCleanup) {
-      _swipeCleanup();
-      _swipeCleanup = null;
-    }
-
-    let directionLocked = null;
-    let dragging = false;
-    let startX = 0, startY = 0, currentX = 0;
-
-    const onStart = (e) => {
+    // 点击牌背翻牌
+    const backFace = wrap.querySelector('.gc-back');
+    backFace.addEventListener('click', () => {
       if (state.isAnimating) return;
-      dragging = true;
-      directionLocked = null;
-      const point = e.touches ? e.touches[0] : e;
-      startX = point.clientX;
-      startY = point.clientY;
-      currentX = 0;
-      el.style.transition = 'none';
-    };
+      wrap.classList.add('flipped');
+    });
 
-    const onMove = (e) => {
-      if (!dragging || state.isAnimating) return;
-      const point = e.touches ? e.touches[0] : e;
-      const dx = point.clientX - startX;
-      const dy = point.clientY - startY;
-
-      if (!directionLocked) {
-        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
-          directionLocked = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-        }
-        return;
-      }
-
-      if (directionLocked === 'vertical') return;
-
-      e.preventDefault();
-      currentX = dx;
-
-      const riddle = el.querySelector('.card-riddle');
-      if (riddle) riddle.style.overflowY = 'hidden';
-
-      const rotateY = Math.min(Math.max(dx * 0.08, -25), 25);
-      el.style.transform = `translateX(${dx}px) perspective(800px) rotateY(${rotateY}deg)`;
-    };
-
-    const onEnd = () => {
-      if (!dragging || state.isAnimating) return;
-      dragging = false;
-
-      const riddle = el.querySelector('.card-riddle');
-      if (riddle) riddle.style.overflowY = '';
-
-      if (directionLocked !== 'horizontal') {
-        directionLocked = null;
-        return;
-      }
-      directionLocked = null;
-
-      if (Math.abs(currentX) > SWIPE_THRESHOLD) {
-        completeSwipe(el, currentX > 0);
-      } else {
-        el.style.transition = 'transform 0.3s ease';
-        el.style.transform = '';
-      }
-    };
-
-    el.addEventListener('touchstart', onStart, { passive: true });
-    el.addEventListener('touchmove', onMove, { passive: false });
-    el.addEventListener('touchend', onEnd);
-    el.addEventListener('mousedown', onStart);
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onEnd);
-
-    // 保存清理函数
-    _swipeCleanup = () => {
-      el.removeEventListener('touchstart', onStart);
-      el.removeEventListener('touchmove', onMove);
-      el.removeEventListener('touchend', onEnd);
-      el.removeEventListener('mousedown', onStart);
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onEnd);
-      dragging = false;
-    };
+    // 投资/放弃按钮
+    wrap.querySelectorAll('.gc-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (state.isAnimating) return;
+        const isInvest = btn.dataset.choice === 'invest';
+        makeChoice(wrap, card, isInvest);
+      });
+    });
   }
 
-  function completeSwipe(el, isInvest) {
+  function makeChoice(wrap, card, isInvest) {
     if (state.isAnimating) return;
+    if (state.currentIndex >= DEAL_COUNT) return;
     state.isAnimating = true;
 
-    // 立即清理事件
-    if (_swipeCleanup) {
-      _swipeCleanup();
-      _swipeCleanup = null;
+    // 记录选择
+    state.choices.push({ card: card, userChoice: isInvest ? 'invest' : 'pass' });
+
+    // 更新进度点
+    const dots = $$('.progress-dot');
+    const dot = dots[state.currentIndex];
+    if (dot) {
+      dot.classList.add('filled');
+      dot.classList.add(isInvest ? 'invest' : 'pass');
     }
 
-    const card = state.deck[state.currentIndex];
-    el.style.transition = '';
-    el.classList.add(isInvest ? 'fly-right' : 'fly-left');
+    // 卡片飞出动画
+    wrap.classList.add(isInvest ? 'fly-right' : 'fly-left');
 
-    if (isInvest) {
-      state.invested.push({ ...card, userChoice: 'invest' });
-      state.remaining--;
-    } else {
-      state.passed.push({ ...card, userChoice: 'pass' });
-    }
+    state.currentIndex++;
 
     setTimeout(() => {
-      state.currentIndex++;
       state.isAnimating = false;
       updateStatus();
       renderCard();
     }, 500);
   }
 
-  // ========== Toast ==========
-  function showToast(text, type) {
-    let toast = $('.toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.className = 'toast';
-      document.body.appendChild(toast);
-    }
-    toast.className = `toast ${type}`;
-    toast.textContent = text;
-    requestAnimationFrame(() => toast.classList.add('show'));
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
-  }
-
   // ========== 结果计算 ==========
   function finishGame() {
     let correctCount = 0;
-    state.invested.forEach(card => {
-      if (card.isCorrectToInvest) correctCount++;
+    state.choices.forEach(({ card, userChoice }) => {
+      const isCorrect = (userChoice === 'invest' && card.isCorrectToInvest) ||
+        (userChoice === 'pass' && !card.isCorrectToInvest);
+      if (isCorrect) correctCount++;
     });
     const titleObj = TITLES.find(t => correctCount >= t.min && correctCount <= t.max);
     showScreen('result');
@@ -314,187 +234,210 @@
 
   function renderResult(correctCount, titleObj) {
     const container = $('#screen-result');
-    let totalScore = 0;
-    state.invested.forEach(card => { totalScore += card.scoreValue; });
 
-    const scoreDisplay = totalScore > 0 ? `+${totalScore}%` : `${totalScore}%`;
-
-    // 6张牌背HTML
     let cardsGridHTML = '';
-    state.invested.forEach((card, i) => {
+    state.choices.forEach((choice, i) => {
       cardsGridHTML += `
-        <div class="result-mini-card" data-id="${card.id}" data-index="${i}">
-          <img class="mini-card-bg" src="./image/card.png" alt="牌背">
-          <img class="mini-card-totem" src="${card.totemImg}" alt="${card.totemName}">
-        </div>
-      `;
-    });
-
-    // 用户放弃的牌
-    const passedCards = state.passed;
-    let othersHTML = '';
-    passedCards.forEach((card, i) => {
-      othersHTML += `
-        <div class="result-mini-card" data-id="${card.id}" data-source="passed">
-          <img class="mini-card-bg" src="./image/card.png" alt="牌背">
-          <img class="mini-card-totem" src="${card.totemImg}" alt="${card.totemName}">
+        <div class="result-flip-card" data-index="${i}" data-flip="0">
+          <div class="rfc-inner">
+            <div class="rfc-face rfc-back">
+              <img class="rfc-totem" src="${choice.card.totemImg}" alt="${choice.card.totemName}" onerror="this.style.display='none'">
+              <div class="rfc-totem-name">${choice.card.totemName}</div>
+              <div class="rfc-tap-hint">点击翻牌</div>
+            </div>
+            <div class="rfc-face rfc-front-b">
+              ${buildFaceBHTML(choice)}
+            </div>
+            <div class="rfc-face rfc-front-c">
+              ${buildFaceCHTML(choice)}
+            </div>
+          </div>
         </div>
       `;
     });
 
     container.innerHTML = `
-      <!-- 顶部：视频全宽 + 数字叠加在底部 -->
       <div class="result-video-hero">
         <video autoplay loop muted playsinline>
           <source src="./final.mp4" type="video/mp4">
         </video>
         <div class="result-video-overlay">
           <div class="result-overlay-stat">
-            <div class="overlay-sv">${correctCount}/${MAX_INVEST}</div>
+            <div class="overlay-sv">${correctCount}/${DEAL_COUNT}</div>
             <div class="overlay-sl">正确决策</div>
-          </div>
-          <div class="result-overlay-stat">
-            <div class="overlay-sv">${scoreDisplay}</div>
-            <div class="overlay-sl">累计收益率</div>
           </div>
         </div>
       </div>
-
-      <!-- 头衔 + 描述 -->
       <div class="result-title-section">
         <div class="result-title-text">${titleObj.emoji} ${titleObj.title}</div>
         <div class="result-title-desc">${titleObj.desc}</div>
       </div>
-
-      <!-- 投资组合 -->
-      <div class="result-section-label">你的投资组合</div>
-      <div class="result-cards-grid">${cardsGridHTML}</div>
-
-      <!-- 放弃的机会 -->
-      ${passedCards.length > 0 ? `
-      <div class="result-passed-section">
-        <div class="result-section-label">那些被你放弃的机会</div>
-        <div class="result-cards-grid">${othersHTML}</div>
-      </div>` : ''}
-
-      <div class="result-actions">
+      <div class="result-section-label">点击每张牌，揭晓真相</div>
+      <div class="result-flip-grid">${cardsGridHTML}</div>
+      <div class="result-actions hidden" id="resultActions">
         <button class="btn-action btn-replay">再来一局</button>
-        <button class="btn-action btn-share">分享战绩</button>
       </div>
       <div class="result-footer">伯克希尔哈撒韦 2026 股东会特别策划</div>
     `;
 
-    bindResultEvents();
+    bindResultFlipEvents(container);
   }
 
-  function bindResultEvents() {
-    const container = $('#screen-result');
+  function buildFaceBHTML(choice) {
+    const card = choice.card;
+    const userChoice = choice.userChoice;
+    const isCorrect = (userChoice === 'invest' && card.isCorrectToInvest) ||
+      (userChoice === 'pass' && !card.isCorrectToInvest);
+    const choiceLabel = userChoice === 'invest' ? '你选择了投资' : '你选择了放弃';
+    const resultIcon = isCorrect ? '✓' : '✗';
+    const resultText = isCorrect ? '正确决策' : '错误决策';
+    const resultCls = isCorrect ? 'correct' : 'wrong';
 
-    // 所有牌背点击 → 弹出翻牌弹窗
-    container.querySelectorAll('.result-mini-card').forEach(mc => {
-      mc.addEventListener('click', () => {
-        const id = parseInt(mc.dataset.id);
-        const cardData = state.invested.find(c => c.id === id)
-          || state.passed.find(c => c.id === id)
-          || CARDS.find(c => c.id === id);
-        if (cardData) showFlipModal(cardData);
+    return `
+      <div class="rfb-badge ${resultCls}">
+        <span class="rfb-badge-icon">${resultIcon}</span>
+        <span>${choiceLabel} · ${resultText}</span>
+      </div>
+      <div class="rfb-company">${card.answer}</div>
+      <div class="rfb-type ${card.type}">${TYPE_LABELS[card.type].text}</div>
+      <div class="rfb-result">${card.investResult}</div>
+      <div class="rfb-next-hint">再次点击 → 看巴菲特怎么说</div>
+    `;
+  }
+
+  function buildFaceCHTML(choice) {
+    const card = choice.card;
+    const quoteHTML = card.buffettQuote ? card.buffettQuote.replace(/\n/g, '<br>') : '';
+    return `
+      <div class="rfc-icon">🃏</div>
+      <div class="rfc-label">巴菲特怎么说</div>
+      <div class="rfc-theory">${card.theory}</div>
+      ${quoteHTML ? `<div class="rfc-quote">${quoteHTML}</div>` : ''}
+    `;
+  }
+
+  function bindResultFlipEvents(container) {
+    let revealedCount = 0;
+
+    container.querySelectorAll('.result-flip-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.dataset.flip === '2') return;
+        const idx = parseInt(card.dataset.index);
+        const choice = state.choices[idx];
+        openCardModal(choice, card, () => {
+          if (card.dataset.flip !== '2') {
+            card.dataset.flip = '2';
+            card.classList.add('revealed');
+            revealedCount++;
+            if (revealedCount >= DEAL_COUNT) {
+              setTimeout(() => {
+                const actions = container.querySelector('#resultActions');
+                if (actions) {
+                  actions.classList.remove('hidden');
+                  actions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+              }, 600);
+            }
+          }
+        });
       });
     });
 
     const replay = container.querySelector('.btn-replay');
     if (replay) replay.addEventListener('click', () => startGame());
-
-    const share = container.querySelector('.btn-share');
-    if (share) share.addEventListener('click', () => showToast('分享功能即将上线', 'invest'));
   }
 
-  // ========== 翻牌弹窗 ==========
-  function showFlipModal(card) {
-    let overlay = $('.flip-modal-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.className = 'flip-modal-overlay';
-      document.body.appendChild(overlay);
-    }
+  /* ========== 放大纸牌弹窗 ========== */
+  function openCardModal(choice, triggerCard, onClose) {
+    const card = choice.card;
+    const userChoice = choice.userChoice;
+    const isCorrect = (userChoice === 'invest' && card.isCorrectToInvest) ||
+      (userChoice === 'pass' && !card.isCorrectToInvest);
+    const choiceLabel = userChoice === 'invest' ? '你选择了投资' : '你选择了放弃';
+    const resultIcon = isCorrect ? '✓' : '✗';
+    const resultText = isCorrect ? '正确决策' : '错误决策';
+    const resultCls = isCorrect ? 'correct' : 'wrong';
+    const quoteHTML = card.buffettQuote ? card.buffettQuote.replace(/\n/g, '<br>') : '';
+    const typeLabel = TYPE_LABELS[card.type];
 
-    const typeConf = TYPE_LABELS[card.type];
-    const isCorrect = card.isCorrectToInvest;
-    const userInvested = state.invested.find(c => c.id === card.id);
-    const userPassed = state.passed.find(c => c.id === card.id);
-
-    // 巴菲特的决策
-    const buffettChoice = card.isCorrectToInvest ? '投资' : '不投资';
-    const buffettChoiceClass = card.isCorrectToInvest ? 'correct' : 'wrong';
-
-    // 用户的决策
-    let userVerdictHTML = '';
-    if (userInvested) {
-      const match = isCorrect;
-      userVerdictHTML = `
-        <div class="flip-verdict ${match ? 'correct' : 'wrong'}">
-          你的选择：投资 ${match ? '✓ 与巴菲特一致' : '✗ 与巴菲特相反'}
-        </div>`;
-    } else if (userPassed) {
-      const match = !isCorrect;
-      userVerdictHTML = `
-        <div class="flip-verdict ${match ? 'correct' : 'wrong'}">
-          你的选择：放弃 ${match ? '✓ 与巴菲特一致' : '✗ 与巴菲特相反'}
-        </div>`;
-    }
-
+    const overlay = document.createElement('div');
+    overlay.className = 'flip-modal-overlay';
     overlay.innerHTML = `
       <div class="flip-card-container">
-        <div class="flip-modal-close" id="flipClose">✕</div>
-        <div class="flip-card-inner face-a" id="flipInner">
-          <!-- 正面A：公司信息 -->
+        <button class="flip-modal-close">✕</button>
+        <div class="flip-card-inner face-a">
+          <!-- 面A：公司揭晓 -->
           <div class="flip-face flip-face-a">
-            <img class="flip-totem" src="${card.totemImg}" alt="">
-            <div class="flip-company">${card.answer}</div>
-            <span class="flip-type-tag" style="background:${typeConf.bgColor};color:${typeConf.color}">${typeConf.text}</span>
-            <div class="flip-buffett-choice ${buffettChoiceClass}">巴菲特的选择：${buffettChoice}</div>
-            ${userVerdictHTML}
-            <div class="flip-result-label">投资结局</div>
-            <div class="flip-result-text">${card.investResult}</div>
-            <div class="flip-cta" id="flipCta">看看巴菲特怎么说 →</div>
+            <div class="flip-hero">
+              <div class="flip-hero-accent ${card.type}"></div>
+              <img class="flip-totem" src="${card.totemImg}" alt="${card.totemName}" onerror="this.style.display='none'">
+              <div class="flip-hero-divider"></div>
+            </div>
+            <div class="flip-info">
+              <div class="flip-match-badge ${resultCls}">
+                <span>${resultIcon}</span>
+                <span>${choiceLabel} · ${resultText}</span>
+              </div>
+              <div class="flip-header">
+                <span class="flip-company">${card.answer}</span>
+                <span class="flip-type-tag ${card.type}">${typeLabel.text}</span>
+              </div>
+              <div class="flip-result-section">
+                <div class="flip-result-label">投资结局</div>
+                <div class="flip-result-text">${card.investResult}</div>
+              </div>
+              <div class="flip-cta" id="modalFlipBtn">翻牌 → 看巴菲特怎么说</div>
+            </div>
           </div>
-          <!-- 背面B：巴菲特理论 -->
+          <!-- 面B：巴菲特点评 -->
           <div class="flip-face flip-face-b">
-            <div class="flip-b-icon">🃏</div>
-            <div class="flip-b-label">巴菲特投资理论</div>
-            <div class="flip-b-theory">${card.theory}</div>
-            <div class="flip-b-quote">${card.buffettQuote}</div>
+            <div class="flip-b-content">
+              <div class="flip-b-icon">🃏</div>
+              <div class="flip-b-label">巴菲特怎么说</div>
+              <div class="flip-b-theory">${card.theory}</div>
+              ${quoteHTML ? `<div class="flip-b-quote">${quoteHTML}</div>` : ''}
+            </div>
+            <div class="flip-b-back-hint" id="modalBackBtn">← 翻回查看详情</div>
           </div>
         </div>
       </div>
     `;
 
-    requestAnimationFrame(() => overlay.classList.add('show'));
-
-    const flipInner = overlay.querySelector('#flipInner');
-    const flipCta = overlay.querySelector('#flipCta');
-    const flipClose = overlay.querySelector('#flipClose');
-
-    // 点击"看看巴菲特怎么说" → 翻到B面
-    flipCta.addEventListener('click', (e) => {
-      e.stopPropagation();
-      flipInner.classList.remove('face-a');
-      flipInner.classList.add('face-b');
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { overlay.classList.add('show'); });
     });
 
-    // 点击B面 → 翻回A面
-    overlay.querySelector('.flip-face-b').addEventListener('click', (e) => {
+    const inner = overlay.querySelector('.flip-card-inner');
+    const flipBtn = overlay.querySelector('#modalFlipBtn');
+    const backBtn = overlay.querySelector('#modalBackBtn');
+    const closeBtn = overlay.querySelector('.flip-modal-close');
+
+    flipBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      flipInner.classList.remove('face-b');
-      flipInner.classList.add('face-a');
+      inner.classList.remove('face-a');
+      inner.classList.add('face-b');
+    });
+    backBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      inner.classList.remove('face-b');
+      inner.classList.add('face-a');
     });
 
-    // 关闭
-    flipClose.addEventListener('click', (e) => {
-      e.stopPropagation();
+    function closeModal() {
       overlay.classList.remove('show');
+      setTimeout(() => {
+        overlay.remove();
+        if (onClose) onClose();
+      }, 400);
+    }
+
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal();
     });
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) overlay.classList.remove('show');
+      if (e.target === overlay) closeModal();
     });
   }
 

@@ -323,114 +323,195 @@ body::before {
   perspective: 1000px;
 }
 
-/* The swipeable card */
-.game-card {
+/* ====== 方案C：翻牌卡 ====== */
+.game-card-wrap {
   width: var(--card-w);
   height: var(--card-h);
   position: relative;
-  touch-action: none;
-  cursor: grab;
+  perspective: 1000px;
   will-change: transform;
+}
+
+.gc-flipper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.game-card-wrap.flipped .gc-flipper {
+  transform: rotateY(180deg);
+}
+
+.gc-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  background: #fff;
-  border: 1px solid var(--border);
 }
 
-/* Card front content */
-.card-front-content {
-  position: relative;
-  z-index: 2;
+/* --- 牌背：谜面 --- */
+.gc-back {
+  background: #fff;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+.gc-back-inner {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 24px 22px 20px;
-  overflow: hidden;
-}
-.front-totem-row {
-  display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  flex-shrink: 0;
+  padding: 48px 28px 36px;
+  gap: 14px;
 }
-.front-totem-small {
-  width: 90px;
-  height: 90px;
+.gc-totem {
+  width: 140px;
+  height: 140px;
   object-fit: contain;
-}
-
-/* Divider */
-.card-divider {
-  width: 100%;
-  height: 1px;
-  background: var(--border-light);
-  margin: 0 0 14px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
   flex-shrink: 0;
 }
-
-/* Riddle text area */
-.card-riddle {
+.gc-riddle {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--accent);
+  text-align: center;
+  font-weight: 500;
   flex: 1;
   overflow-y: auto;
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: #333;
-  padding-right: 4px;
   scrollbar-width: thin;
-  scrollbar-color: #bbb transparent;
+  scrollbar-color: rgba(44,62,80,0.2) transparent;
 }
-.card-riddle::-webkit-scrollbar { width: 3px; }
-.card-riddle::-webkit-scrollbar-thumb { background: #bbb; border-radius: 2px; }
-.card-riddle::-webkit-scrollbar-track { background: transparent; }
-
-/* Swipe overlay indicators - 已移除 */
-.swipe-indicator {
-  display: none;
+.gc-riddle::-webkit-scrollbar { width: 3px; }
+.gc-riddle::-webkit-scrollbar-thumb { background: rgba(44,62,80,0.2); border-radius: 2px; }
+.gc-flip-btn {
+  flex-shrink: 0;
+  padding: 12px 28px;
+  background: var(--accent);
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.gc-flip-btn:active {
+  background: var(--accent-light);
 }
 
-/* Swipe hints */
-.swipe-hints {
-  position: absolute;
-  bottom: max(100px, calc(50vh - var(--card-h)/2 - 60px));
-  left: 0;
-  right: 0;
+/* --- 牌面：投资价值 --- */
+.gc-front {
+  transform: rotateY(180deg);
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.gc-front-inner {
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 0 28px;
-  z-index: 5;
-  pointer-events: none;
+  flex-direction: column;
+  padding: 18px 18px 14px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
-.swipe-hint {
+.gc-front-inner::-webkit-scrollbar { width: 3px; }
+.gc-front-inner::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+.gc-front-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  opacity: 0.45;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
 }
-.swipe-hint.pass { color: var(--red-soft); }
-.swipe-hint.invest { color: var(--green-invest-bright); }
-.hint-arrow {
-  font-size: 1.1rem;
-  animation: hintBounce 2s ease-in-out infinite;
+.gc-front-totem {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
-.swipe-hint.pass .hint-arrow { animation-name: hintBounceLeft; }
-.swipe-hint.invest .hint-arrow { animation-name: hintBounceRight; }
-@keyframes hintBounceLeft {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-5px); }
-}
-@keyframes hintBounceRight {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(5px); }
+.gc-front-time {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
-/* Investment dots indicator */
-.invest-dots {
+.gc-section {
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.gc-section-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.gc-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.gc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.gc-detail {
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+/* 投资/放弃按钮 */
+.gc-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+.gc-btn {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.gc-btn:active { transform: scale(0.96); }
+.gc-btn-pass {
+  background: rgba(192,57,43,0.08);
+  color: var(--red);
+  border: 1.5px solid rgba(192,57,43,0.2);
+}
+.gc-btn-invest {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(44,62,80,0.2);
+}
+
+
+/* Swipe overlay indicators - removed in V2C */
+.swipe-indicator { display: none; }
+
+/* Progress dots indicator */
+.progress-dots {
   position: absolute;
   bottom: max(50px, calc(50vh - var(--card-h)/2 - 100px));
   left: 50%;
@@ -439,7 +520,7 @@ body::before {
   gap: 10px;
   z-index: 5;
 }
-.invest-dot {
+.progress-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -447,9 +528,15 @@ body::before {
   background: transparent;
   transition: all 0.4s var(--transition-smooth);
 }
-.invest-dot.filled {
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(44,62,80,0.3);
+.progress-dot.filled.invest {
+  background: var(--green-invest);
+  border-color: var(--green-invest);
+  box-shadow: 0 0 8px rgba(39,174,96,0.3);
+}
+.progress-dot.filled.pass {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 8px rgba(192,57,43,0.3);
 }
 
 /* Toast message */
@@ -493,6 +580,7 @@ body::before {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   background: #f5f0eb;
+  align-items: stretch;
 }
 
 /* --- 顶部视频英雄区 --- */
@@ -541,6 +629,7 @@ body::before {
 .result-title-section {
   text-align: center;
   padding: 8px 24px 20px;
+  align-self: center;
 }
 .result-title-text {
   font-family: var(--font-display);
@@ -579,74 +668,259 @@ body::before {
   border-radius: 2px;
 }
 
-/* --- 牌区 --- */
-.result-cards-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* --- 翻牌网格（V2 双翻牌机制） --- */
+.result-flip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   padding: 0 16px;
-}
-.result-mini-card {
-  width: calc(33.33% - 4px);
-  position: relative;
-  cursor: pointer;
-  background: transparent;
-  transition: transform 0.2s ease;
-}
-.result-mini-card:active {
-  transform: scale(0.95);
-}
-.result-mini-card img.mini-card-bg {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
-}
-.result-mini-card img.mini-card-totem {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 48%;
-  z-index: 2;
-  pointer-events: none;
-}
-/* 点击提示 */
-.result-mini-card::after {
-  content: '点击翻牌';
-  position: absolute;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: var(--text-muted);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-  white-space: nowrap;
-}
-.result-mini-card:hover::after {
-  opacity: 1;
+  margin-bottom: 20px;
 }
 
-/* 放弃区域分隔 */
-.result-passed-section {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px dashed rgba(0,0,0,0.1);
+/* 单张翻牌卡 - 用padding-top撑高度确保兼容 */
+.result-flip-card {
+  position: relative;
+  width: 100%;
+  padding-top: 140%;  /* 宽高比约 3:4.2 */
+  perspective: 800px;
+  cursor: pointer;
 }
-.result-passed-section .result-section-label {
+.result-flip-card[data-flip="2"] {
+  cursor: default;
+}
+.result-flip-card.revealed .rfc-back::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  z-index: 5;
+  border-radius: 12px;
+}
+.result-flip-card.revealed .rfc-tap-hint {
+  display: none;
+}
+
+.rfc-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 翻转状态 */
+.result-flip-card.flipped-b .rfc-inner,
+.result-flip-card.flipped-c .rfc-inner {
+  transform: rotateY(180deg);
+}
+
+/* 通用面 */
+.rfc-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 面A：牌背 */
+.rfc-back {
+  position: relative;
+  padding: 16px 10px;
+  gap: 6px;
+}
+.rfc-back-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+.rfc-totem {
+  width: 62%;
+  max-height: 52%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+  position: relative;
+  z-index: 1;
+}
+.rfc-totem-name {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+.rfc-tap-hint {
+  font-size: 0.58rem;
   color: var(--text-muted);
-  font-size: 0.78rem;
+  letter-spacing: 1px;
+  margin-top: auto;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-.result-passed-section .result-section-label::before {
-  background: var(--text-muted);
+
+/* 面B：公司揭晓 */
+.rfc-front-b {
+  transform: rotateY(180deg);
+  background: #fff;
+  border: 1px solid var(--border-light);
+  padding: 10px 8px;
+  gap: 4px;
+  text-align: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
-.result-passed-section .result-mini-card img.mini-card-bg {
+/* flipped-c时隐藏面B */
+.result-flip-card.flipped-c .rfc-front-b {
+  visibility: hidden;
+}
+.rfb-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rfb-badge.correct {
+  background: rgba(39,174,96,0.1);
+  color: #27ae60;
+}
+.rfb-badge.wrong {
+  background: rgba(192,57,43,0.1);
+  color: #c0392b;
+}
+.rfb-badge-icon {
+  font-size: 0.7rem;
+}
+.rfb-company {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+  margin: 4px 0 2px;
+  flex-shrink: 0;
+}
+.rfb-type {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.rfb-type.success {
+  background: rgba(39,174,96,0.1);
+  color: #27ae60;
+}
+.rfb-type.failure {
+  background: rgba(192,57,43,0.1);
+  color: #c0392b;
+}
+.rfb-result {
+  font-size: 0.62rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: left;
+  padding: 4px 2px;
+  flex: 1;
+  overflow-y: auto;
+}
+.rfb-next-hint {
+  font-size: 0.52rem;
+  color: var(--text-muted);
   opacity: 0.6;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-light);
+  width: 100%;
 }
-.result-passed-section .result-mini-card img.mini-card-totem {
+
+/* 面C：巴菲特点评 */
+.rfc-front-c {
+  transform: rotateY(180deg);
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 10px;
+  gap: 6px;
+  text-align: center;
+  visibility: hidden;
+}
+/* flipped-c时显示面C */
+.result-flip-card.flipped-c .rfc-front-c {
+  visibility: visible;
+}
+.rfc-front-c::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(201,168,76,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.rfc-front-c .rfc-icon {
+  font-size: 1.6rem;
+  position: relative;
+  z-index: 1;
+}
+.rfc-front-c .rfc-label {
+  font-size: 0.55rem;
+  letter-spacing: 2px;
   opacity: 0.5;
+  position: relative;
+  z-index: 1;
+}
+.rfc-front-c .rfc-theory {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+.rfc-front-c .rfc-quote {
+  font-style: italic;
+  font-size: 0.6rem;
+  line-height: 1.6;
+  opacity: 0.7;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 8px;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+.rfc-front-c .rfc-quote::before {
+  content: '"';
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 0;
+  vertical-align: -0.3em;
+  opacity: 0.3;
+  margin-right: 2px;
+}
+
+/* 隐藏的操作栏 */
+.result-actions.hidden {
+  display: none;
 }
 
 /* --- 底部按钮 --- */
@@ -655,6 +929,9 @@ body::before {
   gap: 10px;
   padding: 24px 20px;
   margin-top: 16px;
+  max-width: 400px;
+  align-self: center;
+  width: 100%;
 }
 .btn-action {
   flex: 1;
@@ -690,39 +967,47 @@ body::before {
   letter-spacing: 2px;
 }
 
-/* --- 翻牌弹窗 --- */
+/* --- 翻牌弹窗（杂志风投资档案） --- */
 .flip-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(15,12,8,0.6);
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(6px);
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .flip-modal-overlay.show {
   opacity: 1;
   pointer-events: auto;
 }
+.flip-modal-overlay.show .flip-card-container {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
 
 /* 3D翻牌容器 */
 .flip-card-container {
-  width: min(82vw, 320px);
-  aspect-ratio: 3 / 4.2;
+  width: min(86vw, 340px);
+  height: min(78vh, 580px);
   perspective: 1200px;
   position: relative;
+  transform: translateY(30px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
 }
 .flip-card-inner {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s var(--transition-smooth);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .flip-card-inner.face-a {
   transform: rotateY(0);
@@ -737,155 +1022,376 @@ body::before {
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: var(--radius);
+  border-radius: 20px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.25),
+    0 4px 16px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
-/* 正面A：公司信息 */
+/* ====== 正面A：杂志风投资档案 ====== */
 .flip-face-a {
   display: flex;
   flex-direction: column;
-  padding: 24px 20px;
-  overflow-y: auto;
+  overflow: hidden;
 }
-.flip-face-a .flip-totem {
-  width: 56px;
-  height: 56px;
+
+/* 顶部图腾展示区 */
+.flip-hero {
+  position: relative;
+  width: 100%;
+  height: 38%;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.flip-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 60%, rgba(44,62,80,0.05) 0%, transparent 70%),
+    linear-gradient(135deg, #f8f6f1 0%, #efe9df 50%, #f5f0eb 100%);
+}
+/* 图腾类型色条 */
+.flip-hero-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.flip-hero-accent.success { background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60); }
+.flip-hero-accent.failure { background: linear-gradient(90deg, #c0392b, #e74c3c, #c0392b); }
+
+/* 图腾图片 */
+.flip-hero .flip-totem {
+  position: relative;
+  z-index: 2;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
-  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+  animation: totemFloat 3s ease-in-out infinite;
 }
-.flip-face-a .flip-company {
+@keyframes totemFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+/* 图腾底部装饰线 */
+.flip-hero-divider {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+}
+
+/* 信息区域 */
+.flip-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 14px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+.flip-info::-webkit-scrollbar { width: 3px; }
+.flip-info::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+/* 公司名 + 标签行 */
+.flip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.flip-company {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--accent);
-  margin-bottom: 6px;
+  line-height: 1.2;
 }
-.flip-face-a .flip-type-tag {
-  display: inline-block;
+.flip-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 3px 10px;
-  border-radius: 4px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.flip-type-tag.success {
+  background: rgba(39,174,96,0.1);
+  color: #27ae60;
+}
+.flip-type-tag.failure {
+  background: rgba(192,57,43,0.1);
+  color: #c0392b;
+}
+
+/* 核心数字高亮 */
+.flip-highlight-num {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(44,62,80,0.04), rgba(201,168,76,0.06));
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.flip-highlight-num .big-num {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.flip-highlight-num .big-num.positive { color: #27ae60; }
+.flip-highlight-num .big-num.negative { color: #c0392b; }
+.flip-highlight-num .num-label {
   font-size: 0.72rem;
-  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* 决策对比区 */
+.flip-decisions {
+  display: flex;
+  gap: 8px;
   margin-bottom: 14px;
 }
-.flip-face-a .flip-result-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--accent);
+.flip-decision-card {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: var(--bg-subtle);
+  text-align: center;
+}
+.flip-decision-card .dec-who {
+  font-size: 0.62rem;
+  color: var(--text-muted);
   letter-spacing: 1px;
   margin-bottom: 4px;
+  text-transform: uppercase;
 }
-.flip-face-a .flip-result-text {
-  font-size: 0.8rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
+.flip-decision-card .dec-choice {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.flip-decision-card .dec-choice.invest-yes { color: #27ae60; }
+.flip-decision-card .dec-choice.invest-no { color: #c0392b; }
+.flip-decision-card.match {
+  border-color: rgba(39,174,96,0.2);
+  background: rgba(39,174,96,0.04);
+}
+.flip-decision-card.mismatch {
+  border-color: rgba(192,57,43,0.15);
+  background: rgba(192,57,43,0.03);
+}
+/* 一致/不一致徽标 */
+.flip-match-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+.flip-match-badge.correct {
+  background: rgba(39,174,96,0.1);
+  color: #27ae60;
+}
+.flip-match-badge.wrong {
+  background: rgba(192,57,43,0.1);
+  color: #c0392b;
+}
+
+/* 投资结局 */
+.flip-result-section {
   margin-bottom: 14px;
 }
-.flip-face-a .flip-verdict {
-  font-size: 0.82rem;
+.flip-result-label {
+  font-size: 0.68rem;
   font-weight: 700;
-  margin-bottom: 14px;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-.flip-verdict.correct {
-  color: var(--green-invest);
-  background: rgba(39,174,96,0.08);
-}
-.flip-verdict.wrong {
-  color: var(--red-soft);
-  background: rgba(231,76,60,0.08);
-}
-.flip-buffett-choice {
-  font-size: 0.82rem;
-  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
   margin-bottom: 6px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.flip-buffett-choice.correct {
-  color: var(--green-invest);
-  background: rgba(39,174,96,0.08);
+.flip-result-label::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  background: var(--accent);
 }
-.flip-buffett-choice.wrong {
-  color: var(--red-soft);
-  background: rgba(231,76,60,0.08);
+.flip-result-text {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
-.flip-face-a .flip-cta {
+
+/* CTA按钮 */
+.flip-cta {
   margin-top: auto;
   text-align: center;
-  padding: 12px;
+  padding: 13px 16px;
   background: var(--accent);
   color: #fff;
-  border-radius: 8px;
-  font-size: 0.88rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.flip-face-a .flip-cta:active { opacity: 0.8; }
+.flip-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+.flip-cta:active {
+  transform: scale(0.97);
+}
+.flip-cta:hover::after {
+  left: 100%;
+}
 
-/* 背面B：巴菲特投资理论 */
+/* ====== 背面B：巴菲特投资哲学 ====== */
 .flip-face-b {
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 28px 24px;
-  text-align: center;
+  overflow: hidden;
   background: var(--accent);
   color: #fff;
 }
-.flip-face-b .flip-b-icon {
-  font-size: 2.5rem;
-  margin-bottom: 16px;
+/* B面装饰背景 */
+.flip-face-b::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(201,168,76,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
-.flip-face-b .flip-b-label {
-  font-size: 0.72rem;
-  letter-spacing: 2px;
-  opacity: 0.6;
-  margin-bottom: 10px;
+.flip-face-b::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
-.flip-face-b .flip-b-theory {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  line-height: 1.7;
+
+.flip-b-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+}
+.flip-b-icon {
+  font-size: 2.8rem;
   margin-bottom: 20px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
 }
-.flip-face-b .flip-b-quote {
+.flip-b-label {
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  opacity: 0.5;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.flip-b-theory {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.flip-b-quote {
   font-style: italic;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  opacity: 0.8;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  padding-top: 16px;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  opacity: 0.75;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 18px;
   margin-top: auto;
+  max-width: 260px;
+}
+.flip-b-quote::before {
+  content: '"';
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 0;
+  vertical-align: -0.4em;
+  opacity: 0.3;
+  margin-right: 2px;
+}
+/* B面底部翻回提示 */
+.flip-b-back-hint {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 12px;
+  font-size: 0.7rem;
+  opacity: 0.4;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
 /* 关闭按钮 */
 .flip-modal-close {
   position: absolute;
-  top: -12px;
-  right: -12px;
-  width: 32px;
-  height: 32px;
+  top: -10px;
+  right: -10px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #fff;
-  border: 1px solid var(--border);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+.flip-modal-close:active {
+  transform: scale(0.9);
 }
 
 /* ================================================================
@@ -901,11 +1407,11 @@ body::before {
 @keyframes cardEnter {
   from {
     opacity: 0;
-    transform: translateY(60px) scale(0.9) rotateX(10deg);
+    transform: translateY(60px) scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -914,13 +1420,13 @@ body::before {
   animation: flyRight 0.4s ease-in forwards;
 }
 @keyframes flyRight {
-  to { transform: translateX(120vw) perspective(800px) rotateY(25deg); opacity: 0; }
+  to { transform: translateX(120vw) rotate(15deg); opacity: 0; }
 }
 .fly-left {
   animation: flyLeft 0.4s ease-in forwards;
 }
 @keyframes flyLeft {
-  to { transform: translateX(-120vw) perspective(800px) rotateY(-25deg); opacity: 0; }
+  to { transform: translateX(-120vw) rotate(-15deg); opacity: 0; }
 }
 
 /* ================================================================
